@@ -1,0 +1,96 @@
+﻿@model PrivacyViewModel
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+<a class="btn btn-primary" asp-controller="Home" asp-action="ClearPersons">Очистить таблицу</a>
+<form method="post" asp-controller="Home" asp-action="Privacy">
+    <table class="table table-bordered table-sm">
+        <thread>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Id</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Отчество</th>
+                <th scope="col">Дата рождения</th>
+
+            </tr>
+        </thread>
+
+
+
+        @foreach (Person p in Model.Persons)
+        {
+            if (p.Done)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="items" value="@p.Id" checked="checked" />
+                    </td>
+                    <td>
+                        @p.Id
+                    </td>
+                    <td class="my-text-through">
+                        @p.LastName
+                    </td>
+                    <td class="my-text-through">
+                        @p.FirstName
+                    </td>
+                    <td class="my-text-through">
+                        @p.SecondName
+                    </td>
+                    <td class="my-text-through">
+                        @p.PersonBirth
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="items" value="@p.Id" />
+                    </td>
+                    <td>
+                        @p.Id
+                    </td>
+                    <td class="my-text-none">
+                        @p.LastName
+                    </td>
+                    <td class="my-text-none">
+                        @p.FirstName
+                    </td>
+                    <td class="my-text-none">
+                        @p.SecondName
+                    </td>
+                    <td class="my-text-none">
+                        @p.PersonBirth
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <input type="submit" value="Вычеркнуть">
+</form>
+<a asp-action="Delite"   class="btn btn-outline-dark">
+   Удалить зачеркнутые
+</a>
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Privacy"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-outline-dark">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Privacy"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-outline-dark">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+
+
